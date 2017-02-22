@@ -13,13 +13,9 @@ public class ContinuousDemo : MonoBehaviour {
 	public RawImage Image;
 	public AudioSource Audio;
     public Text productNameWalmart, productNameEbay, productPriceWalmart, productPriceEbay;
-    public Button continueBtn;
     public RawImage scannerScreen;
-    public RawImage productImg, facebookBtn, twitterBtn, linkWM, linkEB;
-<<<<<<< HEAD
-    public Image panel;
-=======
->>>>>>> origin/master
+    public RawImage productImg, facebookBtn, twitterBtn, linkWM, linkEB, backBtn;
+    public Image panel, backBtnBckgrnd;
 	private float RestartTime;
     private bool scanDone;
     private string walMartKey;
@@ -201,11 +197,7 @@ public class ContinuousDemo : MonoBehaviour {
                     productPriceEbay.text = "Ebay Price: N/A";
                     productNameEbay.text = "Ebay Product: N/A";
                 }
-<<<<<<< HEAD
                 scanDone = true;
-=======
->>>>>>> origin/master
-
             }
 
             scan = false; //don't scan until "continue" button is pressed
@@ -233,7 +225,8 @@ public class ContinuousDemo : MonoBehaviour {
         scannerScreen.GetComponent<RawImage>().enabled = !enable;
         productImg.enabled = enable;
 
-        continueBtn.enabled = enable;
+        backBtnBckgrnd.enabled = enable;
+        backBtn.enabled = enable;
         productNameWalmart.enabled = enable;
         productNameEbay.enabled = enable;
         productPriceWalmart.enabled = enable;
@@ -242,19 +235,15 @@ public class ContinuousDemo : MonoBehaviour {
         twitterBtn.enabled = enable;
         linkEB.enabled = enable;
         linkWM.enabled = enable;
-<<<<<<< HEAD
         panel.enabled = !enable;
-=======
->>>>>>> origin/master
 
-        Color c = continueBtn.GetComponent<Image>().color;
+        Color c = backBtn.GetComponent<RawImage>().color;
         c.a = alpha;
-        continueBtn.GetComponent<Image>().color = c;
+        backBtn.GetComponent<RawImage>().color = c;
 
-        //the text of the continue button
-        c = continueBtn.GetComponentInChildren<Text>().color;
+        c = backBtnBckgrnd.GetComponent<Image>().color;
         c.a = alpha;
-        continueBtn.GetComponentInChildren<Text>().color = c;
+        backBtnBckgrnd.GetComponent<Image>().color = c;
 
         c = facebookBtn.GetComponent<RawImage>().color;
         c.a = alpha;
@@ -265,7 +254,6 @@ public class ContinuousDemo : MonoBehaviour {
         twitterBtn.GetComponent<RawImage>().color = c;
 
         c = linkWM.GetComponent<RawImage>().color;
-<<<<<<< HEAD
         c.a = alpha;
         linkWM.GetComponent<RawImage>().color = c;
 
@@ -285,14 +273,12 @@ public class ContinuousDemo : MonoBehaviour {
             c.a = 0;
             panel.GetComponentInChildren<Text>().color = c;
         }
-=======
         c.a = alpha;
         linkWM.GetComponent<RawImage>().color = c;
 
         c = linkEB.GetComponent<RawImage>().color;
         c.a = alpha;
         linkEB.GetComponent<RawImage>().color = c;
->>>>>>> origin/master
     }
 
     public void ToProduct(string service)
