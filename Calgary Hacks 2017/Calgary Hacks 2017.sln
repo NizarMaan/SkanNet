@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calgary Hacks 2017", "Calgary Hacks 2017.csproj", "{FD03F74A-DA3E-98FF-C064-BF463BA2FF30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calgary Hacks 2017.Editor", "Calgary Hacks 2017.Editor.csproj", "{B66BBCC9-8994-315B-F28F-A9C2D1FBAD9B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FD03F74A-DA3E-98FF-C064-BF463BA2FF30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD03F74A-DA3E-98FF-C064-BF463BA2FF30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD03F74A-DA3E-98FF-C064-BF463BA2FF30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD03F74A-DA3E-98FF-C064-BF463BA2FF30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B66BBCC9-8994-315B-F28F-A9C2D1FBAD9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B66BBCC9-8994-315B-F28F-A9C2D1FBAD9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B66BBCC9-8994-315B-F28F-A9C2D1FBAD9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B66BBCC9-8994-315B-F28F-A9C2D1FBAD9B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
