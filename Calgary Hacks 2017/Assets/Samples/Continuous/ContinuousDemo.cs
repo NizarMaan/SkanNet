@@ -13,11 +13,12 @@ public class ContinuousDemo : MonoBehaviour {
 	public RawImage Image;
 	public AudioSource Audio;
     public Text productNameWalmart, productNameEbay, productPriceWalmart, productPriceEbay;
-    public Button continueBtn, facebookBtn;
+    public Button continueBtn;
     public RawImage scannerScreen;
-    public RawImage productImg;
+    public RawImage productImg, facebookBtn, twitterBtn, linkWM, linkEB;
+    public Image panel;
 	private float RestartTime;
-
+    private bool scanDone;
     private string walMartKey;
     private string eBayKey;
     private string url;
@@ -159,27 +160,46 @@ public class ContinuousDemo : MonoBehaviour {
         {
             if (service == Service.WALMART)
             {
-                Walmart testWal = JsonUtility.FromJson<Walmart>(www.text);
-                productPriceWalmart.text = "Walmart Price: " + testWal.items[0].salePrice;
-                productNameWalmart.text = "Walmart Product: " + testWal.items[0].name;
-                walmartURL = testWal.items[0].productUrl;
-                WWW tempWWW = new WWW(testWal.items[0].thumbnailImage);
-                yield return tempWWW;
-                //if (isDone) {
+                    Walmart testWal = JsonUtility.FromJson<Walmart>(www.text);
+                    try
+                    {
+                        productPriceWalmart.text = "Walmart Price: " + testWal.items[0].salePrice;
+                        productNameWalmart.text = "Walmart Product: " + testWal.items[0].name;
+                        // Feedback
+                        Audio.Play();
+                }
+                    catch (Exception ex)
+                    {
+                        Debug.Log(ex.Message);
+                        productPriceWalmart.text = "Walmart Price: N/A";
+                        productNameWalmart.text = "Walmart Product: N/A";
+                    }
+                    walmartURL = testWal.items[0].productUrl;
+                    WWW tempWWW = new WWW(testWal.items[0].thumbnailImage);
+                    yield return tempWWW;
+                    //if (isDone) {
                     itemImg = tempWWW.texture;
                     productImg.texture = itemImg;
-                
-                // Feedback
-                Audio.Play();
             }
             else if (service == Service.EBAY)
             {
-                Ebay testEb = JsonUtility.FromJson<Ebay>(www.text);              
-                productPriceEbay.text = "Ebay Price: " + testEb.findItemsByProductResponse[0].searchResult[0].item[0].sellingStatus[0].currentPrice[0].__value__;
-                productNameEbay.text = "Ebay Product: " + testEb.findItemsByProductResponse[0].searchResult[0].item[0].title[0];
-                ebayURL = testEb.findItemsByProductResponse[0].searchResult[0].item[0].viewItemURL[0];
-                // Feedback
-                Audio.Play();
+                try
+                {
+                    Ebay testEb = JsonUtility.FromJson<Ebay>(www.text);
+                    productPriceEbay.text = "Ebay Price: " + testEb.findItemsByProductResponse[0].searchResult[0].item[0].sellingStatus[0].currentPrice[0].__value__;
+                    productNameEbay.text = "Ebay Product: " + testEb.findItemsByProductResponse[0].searchResult[0].item[0].title[0];
+                    ebayURL = testEb.findItemsByProductResponse[0].searchResult[0].item[0].viewItemURL[0];
+                    // Feedback
+                    Audio.Play();
+                }
+                catch (Exception ex)
+                {
+                    Debug.Log(ex.Message);
+                    productPriceEbay.text = "Ebay Price: N/A";
+                    productNameEbay.text = "Ebay Product: N/A";
+                }
+                scanDone = true;
+
             }
 
             scan = false; //don't scan until "continue" button is pressed
@@ -188,6 +208,11 @@ public class ContinuousDemo : MonoBehaviour {
         else
         {
             Debug.Log("WWW Error: " + www.error);
+        }
+
+        if (scanDone)
+        {
+            //AsyncOperation async = SceneManager.LoadSceneAsync(1);
         }
     }
 
@@ -208,24 +233,48 @@ public class ContinuousDemo : MonoBehaviour {
         productPriceWalmart.enabled = enable;
         productPriceEbay.enabled = enable;
         facebookBtn.enabled = enable;
+        twitterBtn.enabled = enable;
+        linkEB.enabled = enable;
+        linkWM.enabled = enable;
+        panel.enabled = !enable;
 
-        Color c = continueBtn.GetComponent<UnityEngine.UI.Image>().color;
+        Color c = continueBtn.GetComponent<Image>().color;
         c.a = alpha;
-        continueBtn.GetComponent<UnityEngine.UI.Image>().color = c;
-
-        c = facebookBtn.GetComponent<UnityEngine.UI.Image>().color;
-        c.a = alpha;
-        facebookBtn.GetComponent<UnityEngine.UI.Image>().color = c;
+        continueBtn.GetComponent<Image>().color = c;
 
         //the text of the continue button
         c = continueBtn.GetComponentInChildren<Text>().color;
         c.a = alpha;
         continueBtn.GetComponentInChildren<Text>().color = c;
 
-        //the text of the facebook button
-        c = facebookBtn.GetComponentInChildren<Text>().color;
+        c = facebookBtn.GetComponent<RawImage>().color;
         c.a = alpha;
-        facebookBtn.GetComponentInChildren<Text>().color = c;
+        facebookBtn.GetComponent<RawImage>().color = c;
+
+        c = twitterBtn.GetComponent<RawImage>().color;
+        c.a = alpha;
+        twitterBtn.GetComponent<RawImage>().color = c;
+
+        c = linkWM.GetComponent<RawImage>().color;
+        c.a = alpha;
+        linkWM.GetComponent<RawImage>().color = c;
+
+        c = linkEB.GetComponent<RawImage>().color;
+        c.a = alpha;
+        linkEB.GetComponent<RawImage>().color = c;
+
+        if (!enable)
+        {
+            c = panel.GetComponentInChildren<Text>().color;
+            c.a = 255;
+            panel.GetComponentInChildren<Text>().color = c;
+        }
+        else
+        {
+            c = panel.GetComponentInChildren<Text>().color;
+            c.a = 0;
+            panel.GetComponentInChildren<Text>().color = c;
+        }
     }
 
     public void ToProduct(string service)
@@ -246,12 +295,12 @@ public class ContinuousDemo : MonoBehaviour {
         if (!FB.IsLoggedIn)
         {
             FB.LogInWithReadPermissions(new List<string> { "user_friends" }, LoginCallBack);
-            Debug.Log("This has gotten here to login");
         }
         else
         {
-            FB.ShareLink(new System.Uri("https://www.walmart.com/ip/Braun-Series-9-9090cc-Electric-Shaver-with-Cleaning-Center/45300834"), callback: ShareCallback);
-            Debug.Log("This has gotten here");
+            Debug.Log("sdasd");
+            FB.ShareLink(new Uri(walmartURL), productNameWalmart.text, callback: ShareCallback);
+            Debug.Log("!@321321321");
         }
     }
 
@@ -283,6 +332,12 @@ public class ContinuousDemo : MonoBehaviour {
         {
             Debug.Log("Error during login: " + result.Error);
         }
+    }
+
+    public void ShareTwitter()
+    {
+        string twittershare = "http://twitter.com/home?status=" + Uri.EscapeUriString("Look, I found an amazing item!") + Uri.EscapeUriString("\n") + walmartURL;
+        Application.OpenURL(twittershare);
     }
 
     #endregion
